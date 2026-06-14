@@ -26,7 +26,7 @@ VIA-DIA/
 ```
 
 
-## Train the baseline model
+## Train the Baseline Model
 
 Use the baseline notebook or 
 
