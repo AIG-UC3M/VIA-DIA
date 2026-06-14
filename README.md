@@ -25,6 +25,15 @@ VIA-DIA/
     └── xBDClimate_database.py       # Memory-mapped xBD + ERA-5 PyTorch dataset
 ```
 
+
+**Train the baseline model:**
+
+Use the baseline notebook or 
+
+```bash
+python main.py -c configs/config_baseline.yaml -a BaselineMultimodalModel -d xBDClimate
+```
+
 #### Author
 
 Miguel Ángel Fernández-Torres
