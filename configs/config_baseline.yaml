@@ -28,7 +28,7 @@ arch:
 # ============================================================================
 data:
   # Paths
-  cache_dir: "./cache_xBD"     # Preprocessed data
+  cache_dir: "/mnt/database/xBD"     # Preprocessed data
   
   # Loading
   batch_size: 32               # Good balance of speed/memory
