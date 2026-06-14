@@ -1,0 +1,94 @@
+# Baseline Model Configuration
+# Optimized for Summer School Challenge (simplified, no event masks)
+
+name: "DIA-Baseline-SummerSchool"
+
+# ============================================================================
+# Architecture Configuration
+# ============================================================================
+arch:
+  # Model hyperparameters
+  backbone: "cnn"              # Only CNN supported in baseline
+  num_classes: 4               # No damage, minor, major, destroyed
+  dropout_rate: 0.2            # Lower dropout for smaller model
+  
+  # Feature dimensions (baseline is compact)
+  vis_dim: 256                 # Visual features
+  climate_dim: 128             # Climate features
+  
+  # Checkpoints
+  resume: ""                   # Resume from checkpoint if needed
+  initial_weights: ""          # Pretrained weights
+  
+  # Class weights (adjust if imbalanced)
+  class_weights: [1.0, 1.0, 1.0, 1.0]
+
+# ============================================================================
+# Data Configuration
+# ============================================================================
+data:
+  # Paths
+  cache_dir: "./cache_xBD"     # Preprocessed data
+  
+  # Loading
+  batch_size: 32               # Good balance of speed/memory
+  num_workers: 4               # Parallel data loading
+  augment: true                # Enable augmentation
+  
+  # Reproducibility
+  seed: 42
+
+# ============================================================================
+# Optimizer Configuration
+# ============================================================================
+optimizer:
+  type: "AdamW"                # Optimizer
+  lr: 0.0001                   # Learning rate (1e-4)
+  weight_decay: 0.00001        # L2 regularization
+  
+  # Learning rate scheduler
+  scheduler: true
+  scheduler_type: "CosineAnnealingLR"
+
+# ============================================================================
+# Trainer Configuration
+# ============================================================================
+trainer:
+  # Hardware
+  device: 'cuda'               # Use GPU
+  num_gpus: 1
+  precision: '32-true'         # Full precision (change to '16-mixed' for 2× speedup)
+  
+  # Training
+  epochs: 100                  # Train for 100 epochs
+  steps: 3000000 #-1           # Epoch-based training
+  
+  # Logging
+  log_every_n_steps: 100 #50
+  
+  # Data limits (for debugging)
+  limit_train_batches: 1500 #1.0     # Use all training data
+  limit_val_batches: 1500 #1.0       # Use all validation data
+  
+  # Validation
+  val_check_interval: 1        # Validate every epoch
+  
+  # Checkpointing
+  monitor: "val_f1_macro"      # Monitor F1 score
+  mode: "max"                  # Maximize F1
+  save_dir: "./experiments/"   # Output directory
+  
+  # Early stopping
+  early_stop: 15               # Stop if no improvement for 15 epochs
+  monitor_early_stop: "val_f1_macro"
+  mode_early_stop: "max"
+  
+  # Gradient
+  gradient_clip_val: 1.0       # Clip gradients at 1.0
+
+# ============================================================================
+# Results Configuration
+# ============================================================================
+results:
+  interpretation: false        # Set to true to run interpretation after training
+  step_interpretation: 1       # Process all samples (or use 10 for every 10th)

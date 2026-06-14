@@ -1,0 +1,22 @@
+# Compiled Python files
+*.pyc
+
+# Weight files
+*.pkl
+*.ckpt
+
+# Database files
+*.hdf
+*.zarr
+*.npz
+*.nc
+*.mat
+*.err.*
+*.out.*
+
+# Folders
+checkpoints_nb
+databases/xBD
+wandb
+.vscode
+__pycache__
